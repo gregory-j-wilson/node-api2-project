@@ -173,6 +173,9 @@ router.put('/:id', async (req, res) => {
     try {
         await db.update(req.params.id, req.body)
             .then(resp => {
+                if (!resp) {
+                    res.status(404).json({ message: "The post with the specified ID does not exist." })
+                }  
                 console.log(`${resp} updated records`)
             })
 
@@ -181,9 +184,9 @@ router.put('/:id', async (req, res) => {
             res.status(400).json({ errorMessage: "Please provide title and contents for the post." })
         }
 
-        if (!req.params.id) {
-            res.status(404).json({ message: "The post with the specified ID does not exist." })
-        }
+        // if (!req.params.id) {
+        //     res.status(404).json({ message: "The post with the specified ID does not exist." })
+        // }
 
         res.status(200).json(req.body)
 
